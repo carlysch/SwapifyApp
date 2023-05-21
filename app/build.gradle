@@ -48,6 +48,11 @@ android {
 
 dependencies {
 
+    implementation 'com.spotify.android:auth:1.2.5' // Maven dependency
+
+//    implementation 'androidx.browser:browser:1.0.0'
+//    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.activity:activity-compose:1.5.1'
