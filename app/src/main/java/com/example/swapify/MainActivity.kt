@@ -54,7 +54,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ConnectButton(onClick: () -> Unit) {
     Button(onClick = onClick) {
-        Text(text = "Connect to Spotify")
+        Text(text = "Connect to Spotify",
+            style = MaterialTheme.typography.displayMedium)
+
     }
 }
 
