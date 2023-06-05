@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Swapify</string>
+    <string name="app_name">swapify</string>
+    <string name="main_page">Welcome</string>
+    <string name="info">share currently playing tracks with nearby users</string>
+    <string name="connect">connect</string>
+    <string name="install">don’t forget to install spotify</string>
+
+
+
 </resources>

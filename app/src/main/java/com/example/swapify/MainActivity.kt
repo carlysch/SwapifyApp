@@ -4,14 +4,28 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.swapify.ui.theme.SwapifyTheme
 
 import com.spotify.android.appremote.api.ConnectionParams;
@@ -40,26 +54,39 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SwapifyTheme {
-                var spotifyAppRemote: SpotifyAppRemote
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
+                ) {
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
 
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    ConnectButton {
-//                        initiateSpotifyAuthorization()
+                    Image(
+                        painter = painterResource(R.drawable.logo),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(200.dp)
+                            .clip(RoundedCornerShape(35.dp))
 
-                        SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
-                            override fun onConnected(appRemote: SpotifyAppRemote) {
-                                spotifyAppRemote = appRemote
-                                println("MainActivity" + "Connected! Yay!")
-                                // Now you can start interacting with App Remote
-                                connected()
-                            }
-
-                            override fun onFailure(throwable: Throwable) {
-                                println("MainActivity error ${throwable.message} $throwable")
-                                // Something went wrong when attempting to connect! Handle errors here
-                            }
-                        })
+                    )
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_small)))
+                    Text(
+                        text = stringResource(R.string.info),
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                    Button(onClick = {connectSpotify()}) {
+                        Text("connect")
                     }
+                    Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_medium)))
+                    Text(
+                        text = stringResource(R.string.install),
+                        style = MaterialTheme.typography.titleSmall
+                    )
                 }
             }
         }
@@ -71,6 +98,22 @@ class MainActivity : ComponentActivity() {
         val request = builder.build()
 
         AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request)
+    }
+    private fun connectSpotify(){
+        var spotifyAppRemote: SpotifyAppRemote
+        SpotifyAppRemote.connect(this, connectionParams, object : Connector.ConnectionListener {
+            override fun onConnected(appRemote: SpotifyAppRemote) {
+                spotifyAppRemote = appRemote
+                println("MainActivity" + "Connected! Yay!")
+                // Now you can start interacting with App Remote
+                connected()
+            }
+
+            override fun onFailure(throwable: Throwable) {
+                println("MainActivity error ${throwable.message} $throwable")
+                // Something went wrong when attempting to connect! Handle errors here
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
